@@ -20,3 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout');
+Route::resource('video','VideoController');
+
+Route::get('/user/{id}','UserController@show');
+Route::put('/user/{id}','UserController@update');
+Route::delete('/user/{id}','UserController@destroy');

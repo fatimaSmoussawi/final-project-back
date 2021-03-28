@@ -19,7 +19,7 @@ class AuthController extends Controller
              'avatar' => $request->avatar,
              'cover' => $request->cover,
              'channelDescription' => $request->channelDescription,
-             'isAdmin' => $request->isAdmin,
+            //  'isAdmin' => $request->isAdmin,
 
          ]);
 

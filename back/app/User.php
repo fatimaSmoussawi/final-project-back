@@ -65,4 +65,6 @@ public function setPasswordAttribute($password)
         $this->attributes['password'] = bcrypt($password);
     }
 }    
+    public function video(){ return $this->hasMany(videos::class,'user_id');}
+
 }
