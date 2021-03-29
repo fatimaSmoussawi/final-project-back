@@ -22,6 +22,7 @@ Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout');
 Route::resource('video','VideoController');
 
+Route::get('/user','UserController@index');
 Route::get('/user/{id}','UserController@show');
 Route::put('/user/{id}','UserController@update');
 Route::delete('/user/{id}','UserController@destroy');

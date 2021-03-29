@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Video;
 use Illuminate\Http\Request;
 use App\Http\Requests\RejesterRequest;
 
@@ -51,7 +52,11 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user(),
+            // 'video'=> auth()->video()
+
+
         ]);
     }
 }

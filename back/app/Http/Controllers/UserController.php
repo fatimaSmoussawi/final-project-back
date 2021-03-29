@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Video;
+
+use Illuminate\Support\Facades\Storage;
+
 class UserController extends Controller
 {
     /**
@@ -13,7 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::with('Video')->get();
+
     }
 
     
@@ -37,8 +42,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('id',$id)->first();
+        $user = User::where('id',$id)->with('Video')->first();
         return response()->json([ 'user'=>$user]);
+        // $business = Business::where('id',$id)->with('Food')->get();
+        // return response()->json([ 'business'=>$business]);}
     }
 
     
@@ -52,7 +59,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $image = $request->file('avatar');
+        $path = Storage::disk('public')->put('user', $image);
+
+        $image = $request->file('cover');
+        $path = Storage::disk('public')->put('user', $image);
+       
+
         $data=$request->all();
         $user=User::where('id',$id)->first();
         $user->firstName=$data['firstName'];
@@ -60,8 +73,11 @@ class UserController extends Controller
         $user->userName=$data['userName'];
         $user->email=$data['email'];
         $user->password=$data['password'];
-        $user->avatar=$data['avatar'];
-        $user->cover=$data['cover'];
+        $user->avatar= $path;
+        $user->cover= $path;
+
+        // $user->avatar=$data['avatar'];
+        // $user->cover=$data['cover'];
         $user->channelDescription=$data['channelDescription'];
 
 

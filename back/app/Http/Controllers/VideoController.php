@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Video;
+use App\User;
 
 use App\Http\Requests\VideoRequest;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $video = Video::all();
+        $video = Video::with('User')->get();
         if($video){
             return response()->json([
                 'video' => $video
@@ -142,7 +143,8 @@ function getYoutubeIdFromUrl($url)
         //         'message' => ' this post already exists '
         //     ],401);
         // }
-        $NewURL = 'https'.'://www.youtube.com/'.'embed/'.getYoutubeIdFromUrl($request->get('url')).'?start='.$request->get('start').'&end='.$request->get('end') ;
+
+        $NewURL = 'https'.'://www.youtube-nocookie/'.'embed/'.getYoutubeIdFromUrl($request->get('url')).'?start='.$request->get('start').'&end='.$request->get('end').'&enablejsapi=1&html5=1&iv_load_policy=3&rel=0&showinfo=0&autoplay=1&showinfo=0&controls=0&loop=10';
         $video->newUrl= $NewURL;
         $video->save();
         // return $NewURL;
@@ -168,9 +170,9 @@ function getYoutubeIdFromUrl($url)
     public function show($id)
     {
 
-        return Video::where('id',$id)->first();
+        $video = Video::where('id',$id)->with('User')->first();
+        return response()->json([ 'video'=>$video]);
     }
-
      /**
      * Update the specified resource in storage.
      *
